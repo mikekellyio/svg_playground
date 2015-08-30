@@ -4,16 +4,19 @@ import GrassBlade from './GrassBlade'
 export default class Field extends Component {
   constructor(props){
     super(props)
-    this.state = {blades: this.blades(props.size,2), slop: 20}
+    this.state = {blades: this.blades(props.size,3), slop: 10}
   }
   
   blades(count, offset){
     var blades = []
-    for(var i=1; i<count;i++){
-      blades.push({a: this.point(i*offset, 275), 
-                   b: this.point(i*offset, 30), 
+    for(var i=1; i<=count;i++){
+      blades.push({a: this.point(i*offset, Math.random()*50 + 220), 
+                   b: this.point(i*offset, Math.random()*10 + 20), 
                    c: this.point(i*offset + Math.random()*100, 60)})
     }
+    blades.sort(function(a,b){
+      return a.a.y > b.a.y ? 1 : (a.a.y == b.a.y ? 0 : -1)
+    })
     return blades;
   }
   
