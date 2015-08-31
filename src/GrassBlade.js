@@ -35,6 +35,9 @@ module.exports = React.createClass({
   },
   
   tick: function() {
+    if(Math.random() > 0.1){
+      return; // only 1 in 10 ticks get to move
+    }
     var newAx = (this.state.ax + (Math.random()*this.state.da - this.state.da/2)),
         newAy = (this.state.ay + (Math.random()*this.state.da - this.state.da/2)),
         newBx = (this.state.bx + (Math.random()*this.state.db - this.state.db/2)),
@@ -82,7 +85,7 @@ module.exports = React.createClass({
     var dist = Math.sqrt(dx * dx + dy * dy);
 
     //var offset = (Math.sin(index / count * Math.PI / 2) + 1) * dist / 6;
-    var offset = dist / 8;
+    var offset = dist / 16;
     
     var normX = dx / dist;
     var normY = dy / dist;
@@ -112,7 +115,7 @@ module.exports = React.createClass({
   },
   
   render: function() {
-    var line = this.line(10);
+    var line = this.line(5);
     
     var points = []
     var left = []

@@ -9,7 +9,7 @@ module.exports = React.createClass({
        {a: {x: 10, y: 275}, 
         b: {x: 10, y: 30}, 
         c: {x: 10, y: 60},
-        fieldSize: 25
+        fieldSize: 200
        });
     
     // Listen to changes in the store
