@@ -1,17 +1,63 @@
-import React, { Component } from 'react';
+var React = require('react'),
+    SetIntervalMixin = require('./SetIntervalMixin')
+React.Animate = require('react-animate-state');
 
-export default class GrassBlade extends Component {
-  constructor(props) {
-    super(props);
-  }
+module.exports = React.createClass({
+  mixins: [SetIntervalMixin, React.Animate],
   
-  inspect(props){
+  getInitialState: function(){
+    return {ax: this.props.a.x,
+            ay: this.props.a.y,
+            bx: this.props.b.x, 
+            by: this.props.b.y,
+            cx: this.props.c.x, 
+            cy: this.props.c.y,
+            da: 0,
+            db: 15,
+            dc: 15,
+            tock: 5000
+    }
+  },
+  
+  a: function(){
+    return {x: this.state.ax, y: this.state.ay}
+  },
+  b: function(){
+    return {x: this.state.bx, y: this.state.by}
+  },
+  c: function(){
+    return {x: this.state.cx, y: this.state.cy}
+  },
+  
+  componentDidMount: function() {
+    this.setInterval(this.tick, this.state.tock); // Call a method on the mixin
+    this.tick()
+  },
+  
+  tick: function() {
+    var newAx = (this.state.ax + (Math.random()*this.state.da - this.state.da/2)),
+        newAy = (this.state.ay + (Math.random()*this.state.da - this.state.da/2)),
+        newBx = (this.state.bx + (Math.random()*this.state.db - this.state.db/2)),
+        newBy = (this.state.by + (Math.random()*this.state.db - this.state.db/2)),
+        newCx = (this.state.cx + (Math.random()*this.state.dc - this.state.dc/2)),
+        newCy = (this.state.cy + (Math.random()*this.state.dc - this.state.dc/2));
+    this.animate({
+      ax: newAx,
+      ay: newAy,
+      bx: newBx,
+      by: newBy,
+      cx: newCx,
+      cy: newCy
+    }, this.state.tock, function(){})
+  },
+  
+  inspect: function(props){
     return "{a: {x:"+props.a.x+", y:"+props.a.y+"}, " +
             "b: {x:"+props.b.x+", y:"+props.b.y+"}, " + 
             "c: {x:"+props.c.x+", y:"+props.c.y+"}}"
-  }
+  },
   
-  line(numSteps){
+  line: function(numSteps){
     var l = [];
     for(var currentStep=0; currentStep <= numSteps; currentStep++){
       var t = 1/numSteps * currentStep;
@@ -19,9 +65,9 @@ export default class GrassBlade extends Component {
     }
     
     return l;
-  }
+  },
   
-  perpendicular(a,b, index, count){
+  perpendicular: function(a,b, index, count){
     // Calculate perpendicular offset
     a = a.split(',')
     b = b.split(',')
@@ -36,7 +82,7 @@ export default class GrassBlade extends Component {
     var dist = Math.sqrt(dx * dx + dy * dy);
 
     //var offset = (Math.sin(index / count * Math.PI / 2) + 1) * dist / 6;
-    var offset = dist / 4;
+    var offset = dist / 8;
     
     var normX = dx / dist;
     var normY = dy / dist;
@@ -52,21 +98,21 @@ export default class GrassBlade extends Component {
     var dy = ay + xPerp;
     
     return {x1: cx, y1: cy, x2: dx, y2: dy};
-  }
+  },
   
-  point(t){
-    var a = this.props.a,
-        b = this.props.b,
-        c = this.props.c;
+  point: function(t){
+    var a = this.a(),
+        b = this.b(),
+        c = this.c();
     return [this.p(a.x, b.x, c.x, t), this.p(a.y, b.y, c.y, t)];
-  }
+  },
   
-  p(a, b, c, t){
+  p: function(a, b, c, t){
     return  (1-t)*((1-t)*a + t*b) + t*((1-t)*b + t*c);
-  }
+  },
   
-  render() {
-    var line = this.line(20);
+  render: function() {
+    var line = this.line(10);
     
     var points = []
     var left = []
@@ -115,4 +161,4 @@ export default class GrassBlade extends Component {
       </g>
     );
   }
-}
+});

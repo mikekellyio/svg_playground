@@ -1,29 +1,27 @@
-import React, { Component } from 'react';
-import Field from './Field'
-import PuppetStage from './PuppetStage'
-import Freezer from 'freezer-js'
+var React = require('react')
+var Field = require('./Field')
+var PuppetStage = require('./PuppetStage')
+var Freezer = require('freezer-js')
 
-export default class App extends Component {
-  constructor(props){
-    super(props);
+module.exports = React.createClass({
+  getInitialState: function(){
     var store = new Freezer(
        {a: {x: 10, y: 275}, 
         b: {x: 10, y: 30}, 
         c: {x: 10, y: 60},
-        fieldSize: 300
+        fieldSize: 25
        });
-    this.state = {store: store.get()}
     
     // Listen to changes in the store
     store.on('update', this.updateStore);
-    
-  }
+    return {store: store.get()}
+  },
   
-  updateStore(newState){
+  updateStore: function(newState){
     this.setState({store: newState})
-  }
+  },
   
-  render() {
+  render: function() {
     
     return (
       <div>
@@ -32,4 +30,4 @@ export default class App extends Component {
       </div>
     );
   }
-}
+});
