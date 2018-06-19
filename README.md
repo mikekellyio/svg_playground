@@ -1,5 +1,6 @@
-react-hot-boilerplate
-=====================
+https://www.khanacademy.org/partner-content/pixar/environment-modeling-2/animating-parabolas-ver2/a/start-here-em
+
+# react-hot-boilerplate
 
 The minimal dev environment to enable live-editing React components.
 
